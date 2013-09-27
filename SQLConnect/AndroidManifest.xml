@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme" android:debuggable="true">
         <activity
             android:name="com.pmbtest.sqlconnect.MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" android:permission="android.permission.INTERNET">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -146,6 +146,7 @@ public class MainActivity extends Activity
           con.close();
       }
       catch (Exception e) {
+    	  Log.w("Erreur connexion", e.getMessage(), e);
           AlertDialog ad = new AlertDialog.Builder(this).create();
           ad.setTitle("Error");
           ad.setMessage("Connection error: " + e.getMessage());
