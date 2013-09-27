@@ -24,11 +24,21 @@ import net.sourceforge.jtds.jdbcx.*;
 
 public class MainActivity extends Activity
 {
-  TextView labelLogin;
-  TextView labelError;
+
   EditText txtUsername;
   EditText txtPassword;
+  EditText txtServerIP;
+  EditText txtServerPort;
+  EditText txtDBName;
+  EditText txtDBTable;
+  EditText txtInstance;
+  
+  TextView txtConnect;
+  TextView txtRequest;
+  TextView txtResult;
+  
   Button btnLogin;
+
   
   public void Query()
   {
@@ -48,6 +58,7 @@ public class MainActivity extends Activity
       String tableName="tableName";
       int columnIndex = 3;
       String connString = "jbdc:jtds:sqlserver://"+serverIP+" :"+serverPort+"/"+dbName+";encrypt=false;user="+user+"password="+passwd+"instance=SQLEXPRESS;";
+      txtRequest.setText(connString);
       conn=DriverManager.getConnection(connString,userName,password);
       Log.w("Connection","open");
       Statement stmt = conn.createStatement();
@@ -70,11 +81,19 @@ public class MainActivity extends Activity
       setContentView(R.layout.activity_main);
 
       //Assign properties to login form views
-      labelLogin = (TextView)findViewById(R.id.labelLogin);
-      labelError = (TextView)findViewById(R.id.labelError);
-      txtUsername = (EditText)findViewById(R.id.txtUsername);
-      txtPassword = (EditText)findViewById(R.id.txtPassword);
-      btnLogin = (Button)findViewById(R.id.btnLogin); 
+      txtUsername =   (EditText)findViewById(R.id.txtUsername);
+      txtPassword =   (EditText)findViewById(R.id.txtPassword);
+      txtServerIP =   (EditText)findViewById(R.id.txtServerIP);
+      txtServerPort = (EditText)findViewById(R.id.txtServerPort);
+      txtDBName =     (EditText)findViewById(R.id.txtDBName);
+      txtDBTable =    (EditText)findViewById(R.id.txtDBTable);      
+      txtInstance=    (EditText)findViewById(R.id.txtInstance);
+      
+      txtRequest=(TextView)findViewById(R.id.txtRequest);
+      txtConnect=(TextView)findViewById(R.id.txtConnect);
+      txtResult=(TextView)findViewById(R.id.txtResult);
+      
+      btnLogin = (Button)findViewById(R.id.btnLogin);    
    
   }
 
@@ -91,40 +110,55 @@ public class MainActivity extends Activity
       Connection con = null;
       try{
           Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
+          String serverName = txtServerIP.getText().toString();
+          String serverPort = txtServerPort.getText().toString();
+          String dbName = txtDBName.getText().toString();
+          String dbTable = txtDBTable.getText().toString();
+          String userName = txtUsername.getText().toString();
+          String userPwd = txtPassword.getText().toString();
+          String instance = txtInstance.getText().toString();
 
 
-
-          String connString = "jdbc:jtds:sqlserver://MY_SERVER_NAME:24923/Phone_Test;user=testLogin;password=xxxxxxxx;instance=MYINSTANCE";
-          String username = "testLogin";
-          String password = "xxxxxxxx";
-          con = DriverManager.getConnection(connString,username,password);
+          //String connString = "jdbc:jtds:sqlserver://MY_SERVER_NAME:24923/Phone_Test;user=testLogin;password=xxxxxxxx;instance=MYINSTANCE";
+          String connString = "jdbc:jtds:sqlserver://"+serverName+":"+serverPort+"/"+dbName+";user="+userName+";password="+userPwd+";instance="+instance;
+          //String username = "testLogin";
+          //String password = "xxxxxxxx";
+          txtConnect.setText(connString);
+          //con = DriverManager.getConnection(connString,username,password);
+          con = DriverManager.getConnection(connString,userName,userPwd);
           PreparedStatement stmt = null;
           try {
               //Prepared statement
-              stmt = con.prepareStatement("SELECT * FROM Logins WHERE Username = ? AND Password = ?");
-              stmt.setString(1, txtUsername.toString());
-              stmt.setString(2, txtPassword.toString());
+              //stmt = con.prepareStatement("SELECT * FROM Logins WHERE Username = ? AND Password = ?");
+              //stmt.setString(1, txtUsername.toString());
+              //stmt.setString(2, txtPassword.toString());
+        	  String statement = "SELECT * FROM "+dbTable;
+        	  stmt= con.prepareStatement(statement);
+        	  txtRequest.setText(statement);
               stmt.execute();
 
               ResultSet rs = stmt.getResultSet();
-              if(rs.next()) {
-                  //Start new activity
-                  AlertDialog ad = new AlertDialog.Builder(this).create();
-                  ad.setTitle("Success!");
-                  ad.setMessage("You have logged in successfully!");
-                  ad.setButton("OK", new DialogInterface.OnClickListener() {
-
-                      @Override
-                      public void onClick(DialogInterface dialog, int which) {
-                          dialog.dismiss();
-
-                      }
-                  });
+              if(rs.first()) 
+              {
+                  while (rs.next())
+                  {
+                	  txtRequest.append(rs.getString(3));
+                  }
+            	  
+				  //Start new activity
+				  AlertDialog ad = new AlertDialog.Builder(this).create();
+				  ad.setTitle("Success!");
+				  ad.setMessage("You have logged in successfully!");
+				  ad.setButton("OK", new DialogInterface.OnClickListener()
+								  {
+									
+									  @Override
+									  public void onClick(DialogInterface dialog, int which) 
+									  {
+										  dialog.dismiss();
+									  }
+				                  } );
                   ad.show();
-
-
-
-
               }
               stmt.close();
           }

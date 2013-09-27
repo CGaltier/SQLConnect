@@ -8,53 +8,128 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
 
-    <TextView
-        android:id="@+id/labelError"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:text="label Error"
+        android:layout_centerHorizontal="true" >
+
+        <EditText
+            android:id="@+id/txtUsername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:text="username" />
+
+        <EditText
+            android:id="@+id/txtPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:text="password" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/linearLayout1"
+        android:layout_below="@+id/linearLayout1" >
+
+        <EditText
+            android:id="@+id/txtServerIP"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:text="server IP" >
+        </EditText>
+
+        <EditText
+            android:id="@+id/txtServerPort"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:text="server Port" />
+    </LinearLayout>
+        <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/linearLayout2"
+        android:layout_below="@+id/linearLayout2" >            
+
+        <EditText
+            android:id="@+id/txtDBName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:text="Database Name" >
+
+            <requestFocus />
+        </EditText>
+
+        <EditText
+            android:id="@+id/txtDBTable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:text="Database Table" />
+    </LinearLayout>
+    <EditText
+        android:id="@+id/txtInstance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/linearLayout3"
+        android:layout_below="@+id/linearLayout3"
+        android:ems="10"
+        android:text="Instance" />
+    <TextView
+        android:id="@+id/txtConnect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/btnLogin"
+        android:text="SQL connect"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
-        android:id="@+id/labelLogin"
-        android:layout_width="match_parent"
+        android:id="@+id/txtRequest"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/labelError"
-        android:layout_below="@+id/labelError"
-        android:layout_marginTop="14dp"
-        android:text="label Login"
+        android:layout_alignLeft="@+id/txtConnect"
+        android:layout_alignRight="@+id/btnLogin"
+        android:layout_below="@+id/txtConnect"
+        android:text="SQL request"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <EditText
-        android:id="@+id/txtUsername"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/labelLogin"
-        android:layout_below="@+id/labelLogin"
-        android:layout_marginTop="16dp"
-        android:ems="10"
-        android:text="username" />
 
-    <EditText
-        android:id="@+id/txtPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/txtUsername"
-        android:layout_below="@+id/txtUsername"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:text="password" />
 
     <Button
         android:id="@+id/btnLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/txtPassword"
-        android:layout_below="@+id/txtPassword"
-        android:layout_marginTop="21dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/txtInstance"
         android:onClick="login_onClick"
         android:text="Login" />
+
+    <TextView
+        android:id="@+id/txtResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/txtRequest"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/txtRequest"
+        android:layout_below="@+id/txtRequest"
+        android:text="Text result"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
 </RelativeLayout>
